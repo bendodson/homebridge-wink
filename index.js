@@ -7,6 +7,7 @@ var Service, Characteristic, Accessory, uuid;
 
 var WinkAccessory;
 var WinkLockAccessory;
+var WinkCameraAccessory;
 var WinkLightAccessory;
 var WinkSwitchAccessory;
 var WinkGarageDoorAccessory;
@@ -27,6 +28,7 @@ module.exports = function (homebridge) {
 
 	WinkAccessory = require('./lib/wink-accessory')(Accessory, Service, Characteristic, uuid);
 	WinkLockAccessory = require('./accessories/locks')(WinkAccessory, Accessory, Service, Characteristic, uuid);
+	WinkCameraAccessory = require('./accessories/cameras')(WinkAccessory, Accessory, Service, Characteristic, uuid);
 	WinkLightAccessory = require('./accessories/light_bulbs')(WinkAccessory, Accessory, Service, Characteristic, uuid);
 	WinkSwitchAccessory = require('./accessories/binary_switches')(WinkAccessory, Accessory, Service, Characteristic, uuid);
 	WinkGarageDoorAccessory = require('./accessories/garage_doors')(WinkAccessory, Accessory, Service, Characteristic, uuid);
@@ -128,6 +130,9 @@ WinkPlatform.prototype = {
 
 						else if (device.lock_id !== undefined)
 							accessory = new WinkLockAccessory(that, device);
+
+						else if (device.camera_id !== undefined)
+							accessory = new WinkCameraAccessory(that, device);
 
 						else if (device.binary_switch_id !== undefined)
 							accessory = new WinkSwitchAccessory(that, device);
